@@ -5,8 +5,12 @@ HW2
 extract information from html file which is downloaded by domain_crawler.py
 '''
 import re
-from bs4 import BeautifulSoup as BSoup
 import pandas as pd
+
+from urllib.parse import urljoin
+import requests
+from bs4 import BeautifulSoup as BSoup
+
 
 def open_html(filename):
     '''
@@ -60,13 +64,49 @@ if __name__ == '__main__':
     df_top_domain['By_beautiful_soup'] = list(set(top_domain_list))
     
     '''
+    Visit second level domain
+    '''
+
+    By_re = pd.DataFrame(df_top_domain['By_regular_expression'])
+    By_bs = pd.DataFrame(df_top_domain['By_beautiful_soup'])
+    
+    availability = []
+    for i in range(len(By_re)):
+        domain = By_re[0][i]
+        url = 'http://www.example' + domain
+        try:
+            response = requests.get(url)
+            availability.append(response.status_code)
+        except Exception:
+            availability.append('404')
+    By_re['status'] = availability
+    
+
+    By_bs[0] = By_bs[0].str.extract('(\.\S+)')
+    availability = []
+    for i in range(len(By_re)):
+        domain = By_bs[0][i]
+        
+        try:
+            url = 'http://www.example' + domain
+            response = requests.get(url)
+            availability.append(response.status_code)
+        except Exception:
+            availability.append('404')
+    By_bs['status'] = availability
+
+    
+
+
+
+
+    '''
     Save file into csv file
     '''
     
-    By_re = pd.Series(df_top_domain['By_regular_expression'])
     By_re.to_csv('top_level_domain_by_regular_expression.csv')
-    By_bs = pd.Series(df_top_domain['By_beautiful_soup'])
     By_bs.to_csv('top_level_domain_by_beautifulsoup.csv')
+    
     
     
     
