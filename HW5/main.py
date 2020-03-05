@@ -18,7 +18,7 @@ import spacy
 from tqdm import tqdm
 
 
-FILE_DOWNLOADED = True
+FILE_DOWNLOADED = False
 INIT_URL = 'https://www.gutenberg.org/browse/scores/top/'
 
 if __name__ == '__main__':
@@ -44,6 +44,20 @@ if __name__ == '__main__':
     num_tokens = analytics.count_tokens(s)
     num_verbs = analytics.count_verbs(s)
     num_sents = analytics.count_sentences(s)
+    most_frequent_ent, max_frequency = analytics.get_most_frequent_ent(s)
     vec_15_first = analytics.get_vector(s)
     maxpair, max_similarity = analytics.max_similarity(s)
+    
+    print('then number of tokens is: ', num_tokens)
+    print('then number of verbs is: ', num_verbs)
+    print('the most frequent entity is: ', most_frequent_ent)
+    print('then number of sentences is: ', num_sents)
+    print('the most similar pair of sentences are: ', maxpair)
+    print('word vector of  the first word in the 15th sentence \
+          is \n {}'.format(vec_15_first))
+    
+    
+    
+    
+    
     
