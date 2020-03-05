@@ -4,6 +4,14 @@ from queue import Queue
 
 
 class BaseQueue(Queue):
+    '''
+    A queue that will not put the object that has been stored before
+    
+    >>> q_test = BaseQueue()
+    >>> q_test.put(1); q_test.put(1); q_test.put(2)
+    >>> print(q_test.get(), q_test.get())
+    >>> (1, 0) (2, 0)
+    '''
     def __init__(self):
         super().__init__()
         self.visited_ = {}
@@ -20,6 +28,15 @@ class BaseQueue(Queue):
             
 
 class KeyWordQueue(BaseQueue):
+    '''
+    A queue that only store an object once, \
+    and only put object into queue when there are certain key words in the object
+    
+    >>> q_test = KeyWordQueue('book', 'txt')
+    >>> q_test.put('I'); q_test.put('book1'); q_test.put('.txt')
+    >>> print(q_test.get(), q_test.get())
+    >>> ('I', 0) ('book1', 0)
+    '''
     def __init__(self, *key_words):
         super().__init__()
         self.key_words = [keyword for keyword in key_words]
@@ -32,6 +49,9 @@ class KeyWordQueue(BaseQueue):
                 return None
             
 class BaseStack(list):
+     '''
+    A stack that will not put the object that has been stored before
+    '''
     def __init__(self):
         super().__init__()
         self.visited_ = {}
@@ -47,6 +67,10 @@ class BaseStack(list):
         return item, depth
 
 class KeyWordStack(BaseStack):
+    '''
+    A stack that only store an object once, \
+    and only put object into queue when there are certain key words in the object
+    '''
     def __init__(self, *key_words):
         super().__init__()
         self.key_words = [keyword for keyword in key_words]
