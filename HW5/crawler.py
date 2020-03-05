@@ -14,6 +14,9 @@ BASE_URL = 'https://www.gutenberg.org/'
 HEADERS = {'user-agent':'student'}
 
 class BaseCrawler:
+    '''
+    a crawler that will check if an url is absolute or not before sending request
+    '''
     def __init__(self, base_url=BASE_URL,
                  headers = HEADERS):
         self.base_url = base_url
@@ -41,6 +44,10 @@ class BaseCrawler:
                     
                     
 class BookCrawler(BaseCrawler):
+    '''
+    A crawler that will check if an url is absolute or not,\
+    and will download the page into local directory if '.txt' is in the url
+    '''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
