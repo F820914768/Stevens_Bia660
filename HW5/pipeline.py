@@ -4,6 +4,9 @@
             
 
 class Pipeline:
+    '''
+    A pipeline to send request, which has a limit depth recursion 
+    '''
     def __init__(self, init_url, num_books, queue, 
                  crawler, max_depth):
         self.num_books = num_books
